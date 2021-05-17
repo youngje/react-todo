@@ -15,19 +15,26 @@ const MOCK_DATA = [
     id: 'some-random-value-1',
     name: 'try fetch api',
     completed: true,
+  },
+  {
+    id: 'some-random-value-2',
+    name: '안녕~',
+    completed: false,
   }
 ];
 
 function App() {
+  const todos = MOCK_DATA;
+
   return (
     <>
       <section className="todoapp">
         <Header />
         <section className="main">
           <ToggleAllButton />
-          <TodoList />
+          <TodoList todos={todos} />
         </section>
-        <Footer />
+        {todos?.length > 0 && <Footer todos={todos} />}
       </section>
       <Info />
     </>
