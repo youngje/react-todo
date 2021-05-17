@@ -1,6 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
 
+const MOCK_DATA = [
+  {
+    id: 'some-random-value-0',
+    name: 'Make todos with React',
+    completed: false,
+  },
+  {
+    id: 'some-random-value-1',
+    name: 'try fetch api',
+    completed: true,
+  }
+];
+
 function App() {
   return (
     <div className="App">
