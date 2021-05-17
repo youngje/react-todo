@@ -1,7 +1,11 @@
-export function Footer() {
+export function Footer({ todos = []}) {
+  const itemsLeft = todos.filter(todo => !todo.completed);
+  const itemText = itemsLeft.length === 1 ? 'item' : 'items';
+
   return (
     <footer className="footer">
-      <span className="todo-count"><strong>0</strong> item left</span>
+      <span className="todo-count">
+        <strong>{itemsLeft.length}</strong> {itemText} left</span>
       <ul className="filters">
         <li>
           <a className="selected" href="#/">All</a>
