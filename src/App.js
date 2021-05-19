@@ -4,8 +4,9 @@ import { Header } from './Header';
 import { Info } from './Info';
 import { TodoList } from './TodoList';
 import { ToggleAllButton } from './ToggleAllButton';
+import { useTodos } from './useTodos';
 
-const MOCK_DATA = [
+export const MOCK_DATA = [
   {
     id: 'some-random-value-0',
     name: 'Make todos with React',
@@ -24,15 +25,19 @@ const MOCK_DATA = [
 ];
 
 function App() {
-  const todos = MOCK_DATA;
+  const { todos, addTodo, toggleTodo, deleteTodo } = useTodos();
 
   return (
     <>
       <section className="todoapp">
-        <Header />
+        <Header addTodo={addTodo} />
         <section className="main">
           <ToggleAllButton />
-          <TodoList todos={todos} />
+          <TodoList
+            todos={todos}
+            toggleTodo={toggleTodo}
+            deleteTodo={deleteTodo}
+          />
         </section>
         {todos?.length > 0 && <Footer todos={todos} />}
       </section>
