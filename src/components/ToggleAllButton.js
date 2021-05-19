@@ -1,8 +1,13 @@
-export function ToggleAllButton({ todos, completAllTodo, resetAllTodo }) {
+import { useSelector, useDispatch } from 'react-redux';
+import { completeAllTodo, resetAllTodo } from '../redux/todos';
+
+export function ToggleAllButton() {
+  const dispatch = useDispatch();
+  const todos = useSelector(state => state.todos);
   const areAllCompleted = todos.length && todos.every(todo => todo.completed)
   const onToggleAllClick = () => {
-    if (areAllCompleted) return resetAllTodo();
-    return completAllTodo();
+    if (areAllCompleted) return dispatch(resetAllTodo());
+    return dispatch(completeAllTodo());
   }
 
   return (

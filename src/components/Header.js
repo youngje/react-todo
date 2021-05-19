@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../redux/todos';
 
-export function Header({ addTodo }) {
+export function Header() {
   const [name, setName] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     if (event.key !== 'Enter') return;
     if (!name) return;
 
-    addTodo(name);
+    dispatch(addTodo(name));
     setName('');
   }
 

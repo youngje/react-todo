@@ -1,17 +1,20 @@
 import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { toggleTodo, deleteTodo, updateTodo } from '../redux/todos';
 
-export function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
+export function TodoItem({ todo }) {
   const { id, name, completed } = todo;
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(name);
   const editInput = useRef(null);
+  const dispatch = useDispatch();
 
   const completedClass = completed ? 'completed' : '';
   const editingClass = editing ? 'editing' : '';
 
   const onBlurEditing = () => {
     setEditing(false);
-    updateTodo({ id, name: value });
+    dispatch(updateTodo({ id, name: value }));
   }
 
   const handleSubmit = (event) => {
@@ -28,14 +31,14 @@ export function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
           className="toggle"
           type="checkbox"
           checked={completed}
-          onChange={() => { toggleTodo(id) }}
+          onChange={() => { dispatch(toggleTodo(id)) }}
         />
         <label onDoubleClick={() => { setEditing(true) }}>
           {name}
         </label>
         <button
           className="destroy"
-          onClick={() => { deleteTodo(id) }}
+          onClick={() => { dispatch(deleteTodo(id)) }}
         />
       </div>
       <input

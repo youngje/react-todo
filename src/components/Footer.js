@@ -1,11 +1,17 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { clearCompletedTodo } from '../redux/todos';
+import { setFilter } from '../redux/filter';
+
 const FILTERS = [
   { key: 'all', path: '#/', display: 'All' },
   { key: 'active', path: '#/active', display: 'Active' },
   { key: 'completed', path: '#/completed', display: 'Completed' }
 ];
 
-export function Footer({ todos = [], clearCompletedTodo, filter, setFilter }) {
-  const itemsLeft = todos.filter(todo => !todo.completed);
+export function Footer() {
+  const dispatch = useDispatch();
+  const itemsLeft = useSelector(state => state.todos.filter(todo => !todo.completed));
+  const filter = useSelector(state => state.filter);
   const itemText = itemsLeft.length === 1 ? 'item' : 'items';
 
   return (
@@ -18,7 +24,7 @@ export function Footer({ todos = [], clearCompletedTodo, filter, setFilter }) {
             <a
               className={FILTER.key === filter ? 'selected' : ''}
               href={FILTER.path}
-              onClick={() => setFilter(FILTER.key)}
+              onClick={() => dispatch(setFilter(FILTER.key))}
             >
               {FILTER.display}
             </a>
@@ -27,7 +33,7 @@ export function Footer({ todos = [], clearCompletedTodo, filter, setFilter }) {
       </ul>
       <button
         className="clear-completed"
-        onClick={clearCompletedTodo}
+        onClick={() => dispatch(clearCompletedTodo())}
       >
         Clear completed
       </button>
