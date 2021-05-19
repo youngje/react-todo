@@ -1,4 +1,10 @@
-export function Footer({ todos = []}) {
+const FILTERS = [
+  { key: 'all', path: '#/', display: 'All' },
+  { key: 'active', path: '#/active', display: 'Active' },
+  { key: 'completed', path: '#/completed', display: 'Completed' }
+];
+
+export function Footer({ todos = [], clearCompletedTodo, filter, setFilter }) {
   const itemsLeft = todos.filter(todo => !todo.completed);
   const itemText = itemsLeft.length === 1 ? 'item' : 'items';
 
@@ -7,17 +13,24 @@ export function Footer({ todos = []}) {
       <span className="todo-count">
         <strong>{itemsLeft.length}</strong> {itemText} left</span>
       <ul className="filters">
-        <li>
-          <a className="selected" href="#/">All</a>
-        </li>
-        <li>
-          <a href="#/active">Active</a>
-        </li>
-        <li>
-          <a href="#/completed">Completed</a>
-        </li>
+        {FILTERS.map(FILTER => (
+          <li key={FILTER.key}>
+            <a
+              className={FILTER.key === filter ? 'selected' : ''}
+              href={FILTER.path}
+              onClick={() => setFilter(FILTER.key)}
+            >
+              {FILTER.display}
+            </a>
+          </li>
+        ))}
       </ul>
-      <button className="clear-completed">Clear completed</button>
+      <button
+        className="clear-completed"
+        onClick={clearCompletedTodo}
+      >
+        Clear completed
+      </button>
     </footer>
   );
 }

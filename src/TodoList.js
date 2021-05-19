@@ -1,6 +1,6 @@
 import { TodoItem } from "./TodoItem";
 
-export function TodoList({ todos = [], toggleTodo, deleteTodo }) {
+export function TodoList({ todos = [], toggleTodo, deleteTodo, updateTodo }) {
   if (todos.length < 1) return null;
 
   return (
@@ -11,6 +11,7 @@ export function TodoList({ todos = [], toggleTodo, deleteTodo }) {
           todo={todo}
           toggleTodo={toggleTodo}
           deleteTodo={deleteTodo}
+          updateTodo={updateTodo}
         />
       ))}
     </ul>

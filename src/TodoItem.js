@@ -1,8 +1,28 @@
-export function TodoItem({ todo, toggleTodo, deleteTodo }) {
+import { useState, useRef } from 'react';
+
+export function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
   const { id, name, completed } = todo;
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(name);
+  const editInput = useRef(null);
+
+  const completedClass = completed ? 'completed' : '';
+  const editingClass = editing ? 'editing' : '';
+
+  const onBlurEditing = () => {
+    setEditing(false);
+    updateTodo({ id, name: value });
+  }
+
+  const handleSubmit = (event) => {
+    if (event.key !== 'Enter') return;
+    if (!name) return;
+
+    editInput.current.blur();
+  }
 
   return (
-    <li className={completed ? 'completed' : ''}>
+    <li className={`${completedClass} ${editingClass}`}>
       <div className="view">
         <input
           className="toggle"
@@ -10,7 +30,9 @@ export function TodoItem({ todo, toggleTodo, deleteTodo }) {
           checked={completed}
           onChange={() => { toggleTodo(id) }}
         />
-        <label>{name}</label>
+        <label onDoubleClick={() => { setEditing(true) }}>
+          {name}
+        </label>
         <button
           className="destroy"
           onClick={() => { deleteTodo(id) }}
@@ -18,8 +40,11 @@ export function TodoItem({ todo, toggleTodo, deleteTodo }) {
       </div>
       <input
         className="edit"
-        value={name}
-        onChange={() => { }}
+        ref={editInput}
+        value={value}
+        onChange={(event) => { setValue(event.target.value) }}
+        onBlur={onBlurEditing}
+        onKeyUp={handleSubmit}
       />
     </li>
   );

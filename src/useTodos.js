@@ -28,5 +28,34 @@ export function useTodos() {
     setTodos(newTodos);
   };
 
-  return { todos, addTodo, toggleTodo, deleteTodo };
+  const updateTodo = (updatedTodo) => {
+    const newTodos = todos.map(todo => {
+      if (todo.id === updatedTodo.id) return { ...todo, ...updatedTodo };
+      return todo;
+    })
+    setTodos(newTodos);
+  };
+
+  const completAllTodo = () => {
+    setTodos(todos.map(todo => ({...todo, completed: true })));
+  };
+
+  const resetAllTodo = () => {
+    setTodos(todos.map(todo => ({...todo, completed: false })));
+  };
+
+  const clearCompletedTodo = () => {
+    setTodos(todos.filter(todo => !todo.completed));
+  };
+
+  return {
+    todos,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    updateTodo,
+    completAllTodo,
+    resetAllTodo,
+    clearCompletedTodo,
+  };
 }
